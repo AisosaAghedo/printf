@@ -7,12 +7,13 @@
 int _printf(char *format, ...)
 {
 	va_list args;
-	va_start(args, format);
-	char *s, *r;
+	char *s;
+	char *r;
 	char t[2];
 	int count = 0, temp, i;
 	unsigned int tmp;
 	
+	va_start(args, format);
 	for (i = 0; i < (int)strlen(format); i++)
 	{
 		if (format[i] == '%' || format[i - 1] == '%')
