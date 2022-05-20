@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 char STR[40];
-int _printf(char *format, ...);
+int _printf(const char *format, ...);
 char *int_to_str(int n);
+char *unsigned_to_str(unsigned int n);
 #endif
