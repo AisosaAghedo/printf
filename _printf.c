@@ -16,8 +16,6 @@ int _printf(const char *format, ...)
 
 	for(i = 0; i < length; i++)
 	{
-		if (format[i] == '%' || format[i - 1] == '%')
-		{
 			if (format[i] == 'i' || format[i] == 'd')
 			{
 				temp = va_arg(args, int);
@@ -57,14 +55,13 @@ int _printf(const char *format, ...)
 				total += 1;
 				write(1, t, 2);
 			}
-                }
-		else
-		{
-			t[0] = format[i];
-			t[1] = '\0';
-			total += 1;
-			write(1, t, 2);
-		}
+			else
+			{
+				t[0] = format[i];
+				t[1] = '\0';
+				total += 1;
+				write(1, t, 2);
+			}
 	}
 	return (total);
 }
