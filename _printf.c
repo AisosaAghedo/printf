@@ -7,90 +7,58 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
+	int i, bit;
 	char *s;
 	char *r;
-	char *u;
 	char t[2];
-	int count = 0, temp, i, total = 0;
-	unsigned int tmp;
-	
+	int length = strlen(format), temp;
 	va_start(args, format);
-	for (i = 0; i < (int)strlen(format); i++)
+
+	for(i = 0; i < length; i++)
 	{
 		if (format[i] == '%' || format[i - 1] == '%')
 		{
-			if (format[i + 1] == '%')
-			{
-				t[0] = '%';
-				t[1] = '\0';
-				strcpy(s, t);
-				write(1, s, 1);
-			}
-			if (format[i + 1] == 's')
-			{
-				r = va_arg(args, char *);
-				total += strlen(r);
-				count = strlen(r) * sizeof(char);
-				s = malloc(count + 1);
-				strcpy(s, r);
-				write(1, s, count + 1);
-				free(s);
-			}
-			else if (format[i + 1] == 'i' || format[i + 1] == 'd')
+			if (format[i] == 'i' || format[i] == 'd')
 			{
 				temp = va_arg(args, int);
-				if (temp < 0)
-				{
-					r = int_to_str(-1 *temp);
-					count = strlen(r) * sizeof(char);
-					s = malloc(count + 1);
-					strcpy(s, r);
-					total += strlen(r);
-					write(1, "-", 1);
-					write(1, s, count);
-					free(s);
-				}
-				else
-				{
-					r = int_to_str(temp);
-					count = strlen(r) * sizeof(char);
-					s = malloc(count + 1);
-					total += strlen(r);
-					strcpy(s, r);
-					write(1, s, count);
-					free(s);
-				}
+				r = int_to_str(temp);
+				bit = strlen(r) * sizeof(char);
+				s = malloc(bit + sizeof(char));
+				strcpy(s, r);
+				write(1, s, bit + 1);
+				free(s);
 			}
-			else if (format[i + 1] == 'c')
+			else if (format[i] == 's')
+			{
+				r = va_arg(args, char *);
+				bit = strlen(r) * sizeof(char);
+				s = malloc(bit + sizeof(char));
+				strcpy(s, r);
+				write(1, s, bit + sizeof(char));
+				free(s);
+			}
+			else if (format[i] == 'c')
 			{
 				t[0] = va_arg(args, int);
 				t[1] = '\0';
-				total += 1;
-				write(1, t, 1);
+				bit = strlen(t) * sizeof(char);
+				s = malloc(bit + sizeof(char));
+				strcpy(s, t);
+				write(1, s, bit + 1);
+				free(s);
 			}
-			else if (format[i + 1] == 'u')
+			else if (format[i] == '[' || format[i] == ']' || format[i + 1] == '%')
 			{
-				tmp = va_arg(args, unsigned int);
-				r = unsigned_to_str(tmp);
-				count = strlen(r) * sizeof(char);
-				u = malloc(count + 1);
-				total += strlen(r);
-				strcpy(u, r);
-				write(1, u, count);
-				free(u);
+				t[0] = format[i];
+				t[1] = '\0';
+				write(1, t, 2);
 			}
-		}
-		else if (format[i] == '\n')
-		{
-			write(1, "\n", 1);
-		}
+                }
 		else
 		{
 			t[0] = format[i];
 			t[1] = '\0';
-			total += 1;
-			write(1,t,1);
+			write(1, t, 2);
 		}
 	}
-	return (total);
-}     
+}
