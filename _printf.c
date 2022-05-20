@@ -1,3 +1,4 @@
+#include "main.h"
 /**
  * _printf - a function that mimics some of the functionality of the printf
  * @format: the format string
@@ -9,10 +10,10 @@ int _printf(char *format, ...)
 	va_start(args, format);
 	char *s, *r;
 	char t[2];
-	int i, count = 0, temp;
+	int count = 0, temp, i;
 	unsigned int tmp;
 	
-	for (i = 0; i < strlen(format); i++)
+	for (i = 0; i < (int)strlen(format); i++)
 	{
 		if (format[i] == '%' || format[i - 1] == '%')
 		{
