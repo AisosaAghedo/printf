@@ -11,7 +11,7 @@ int _printf(const char *format, ...)
 	char *s;
 	char *r;
 	char t[2];
-	int length = strlen(format), temp;
+	int length = strlen(format), temp, total = 0;
 	va_start(args, format);
 
 	for(i = 0; i < length; i++)
@@ -25,6 +25,7 @@ int _printf(const char *format, ...)
 				bit = strlen(r) * sizeof(char);
 				s = malloc(bit + sizeof(char));
 				strcpy(s, r);
+				total += strlen(r);
 				write(1, s, bit + 1);
 				free(s);
 			}
@@ -34,6 +35,7 @@ int _printf(const char *format, ...)
 				bit = strlen(r) * sizeof(char);
 				s = malloc(bit + sizeof(char));
 				strcpy(s, r);
+				total += strlen(r);
 				write(1, s, bit + sizeof(char));
 				free(s);
 			}
@@ -44,6 +46,7 @@ int _printf(const char *format, ...)
 				bit = strlen(t) * sizeof(char);
 				s = malloc(bit + sizeof(char));
 				strcpy(s, t);
+				total += 1;
 				write(1, s, bit + 1);
 				free(s);
 			}
@@ -51,6 +54,7 @@ int _printf(const char *format, ...)
 			{
 				t[0] = format[i];
 				t[1] = '\0';
+				total += 1;
 				write(1, t, 2);
 			}
                 }
@@ -58,7 +62,9 @@ int _printf(const char *format, ...)
 		{
 			t[0] = format[i];
 			t[1] = '\0';
+			total += 1;
 			write(1, t, 2);
 		}
 	}
+	return (total);
 }
