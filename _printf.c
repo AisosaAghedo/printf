@@ -23,7 +23,7 @@ int _printf(char *format, ...)
 				count = strlen(r) * sizeof(char);
 				s = malloc(count + 1);
 				strcpy(s, r);
-				write(1, s, count);
+				write(1, s, count + 1);
 				free(s);
 			}
 			else if (format[i + 1] == 'i' || format[i + 1] == 'd')
