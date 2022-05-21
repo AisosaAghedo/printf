@@ -7,69 +7,46 @@
 int _printf(char *format, ...)
 {
 	va_list args;
+	char c;
+	char *str;
+	int i, length = strlen(format), count = 0;
 	va_start(args, format);
-	char *s, *r;
-	char t[2];
-	int count = 0, temp, i;
-	unsigned int tmp;
-	
-	for (i = 0; i < (int)strlen(format); i++)
+
+	for (i = 0; i < length; i++)
 	{
-		if (format[i] == '%' || format[i - 1] == '%')
+		if (format[i] == '%')
 		{
-			if (format[i + 1] == 's')
+			i++;
+			if (format[i] == 'c')
 			{
-				r = va_arg(args, char *);
-				count = strlen(r) * sizeof(char);
-				s = malloc(count + 1);
-				strcpy(s, r);
-				write(1, s, count);
-				free(s);
+				c = va_arg(args, int);
+				count += _putchar(c);
+				continue;
 			}
-			else if (format[i + 1] == 'i' || format[i + 1] == 'd')
+			else if (format[i] == 's')
 			{
-				temp = va_arg(args, int);
-				if (temp < 0)
-				{
-					r = int_to_str(-1 *temp);
-					count = strlen(r) * sizeof(char);
-					s = malloc(count + 1);
-					strcpy(s, r);
-					write(1, "-", 1);
-					write(1, s, count);
-					free(s);
-				}
-				else
-				{
-					r = int_to_str(temp);
-					count = strlen(r) * sizeof(char);
-					s = malloc(count + 1);
-					strcpy(s, r);
-					write(1, s, count);
-					free(s);
-				}
+				str = va_arg(args, char *);
+				count += _puts(str);
+				continue;
 			}
-			else if (format[i + 1] == 'c')
+			else
 			{
-				t[1] = va_arg(args, int);
-				write(1, t, 2);
-			}
-			else if (format[i + 1] == 'u')
-			{
-				tmp = va_arg(args, unsigned int);
-				r = int_to_str(tmp);
-				count = strlen(r) * sizeof(char);
-				s = malloc(count + 1);
-				strcpy(s, r);
-				write(1, s, count);
-				free(s);
+				count += _putchar(format[i]);
+				continue;
 			}
 		}
 		else
 		{
-			t[1] = format[i];
-			write(1,t,2);
+			if (format[i] != '\n')
+			count += _putchar(format[i]);
+			else
+			{
+				_putchar(format[i]);
+			}
+			
 		}
 	}
+		va_end(args);
+
 	return (0);
 }     
