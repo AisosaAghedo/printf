@@ -18,7 +18,7 @@ int print_i(va_list i)
 	for (x = 1; x < 10; x++)
 	{
 		y /= 10;
-		a[x] = (n / y) % 10;
+		a[x] = (z / y) % 10;
 	}
 	if (z < 0)
 	{
